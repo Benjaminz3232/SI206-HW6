@@ -3,6 +3,13 @@ import json
 import unittest
 import random
 
+
+
+
+## Name: Benjamin Zeffer
+## Section: Thursday (7-8pm)
+
+
 ## As usual, this HW is worth 500 points in total.
 ## There are 10 problems. Each one is worth 50 points.
 
