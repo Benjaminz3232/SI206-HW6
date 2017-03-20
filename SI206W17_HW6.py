@@ -152,42 +152,62 @@ names_with_not_too_much_seniority = [tup[0] for tup in student_tups_list if len(
 ## [PROBLEM 10]
 print("\n\n***** Problem 10 *****")
 
-## Define a function called readfiles, which accepts a list of filenames as input and yields each line in each of the file with that name, assuming those files exist in the same directory as this program.
+## Define a function called readfiles, which accepts a list of filenames as input and yields each 
+# line in each of the file with that name, assuming those files exist in the same directory as this program.
 def readfiles(filenames):
-    for f in filenames:
-        fileref = open(f)
-        for line in fileref:
+    for fname in filenames:
+        current_file = open(fname)
+        for line in current_file:
             yield line
-        fileref.close()
-## Define a generator called len_check which accepts a generator of file lines and returns a generator object of all the lines it's accepted whose length is longer than 40 characters.
-def len_check(lines):
-    return(line for line in lines if len(line) > 40)
-
-## Finally, write a function called main_filterer that accepts a list of filenames (strings), and returns a generator of all the lines in those files that are longer than 40 characters. The function should invoke the other function and generator, readfiles and len_check.
-def main_filterer(filenames):
-    return(len_check(readfiles(filenames)))
-## There is a test for this but an even more fun test is to uncomment the code below which invokes the main_filterer function and prints each line from the generator without blank lines in between (that's what the comma is doing).
+        current_file.close()
+## Define a generator called len_check which accepts a generator of file lines and returns a 
+# generator object of all the lines it's accepted whose length is longer than 40 characters.
+def len_check(generator):
+    for l in generator:
+        if len(l) > 40:
+            yield l
+## Finally, write a function called main_filterer that accepts a list of filenames (strings), and 
+# returns a generator of all the lines in those files that are longer than 40 characters. 
+# The function should invoke the other function and generator, readfiles and len_check.
+def main_filterer(fnames):
+    for fname in readfiles(fnames):
+        if len_check(fname):
+            yield fname
+## There is a test for this but an even more fun test is to uncomment the code below which 
+# invokes the main_filterer function and prints each line from the generator without blank lines in 
+# between (that's what the comma is doing).
 
 ## The examples here http://anandology.com/python-practice-book/iterators.html in your reading may be very helpful!
 
-## We have provided files samplehw6_1.txt and samplehw6_2.txt for your use for this problem, which hopefully you have downloaded, so you can test with those file names! The test below also relies upon these files. Of course, you could also create other files for testing.
+## We have provided files samplehw6_1.txt and samplehw6_2.txt for your use for this problem, 
+# which hopefully you have downloaded, so you can test with those file names! 
+# The test below also relies upon these files. Of course, you could also create other files for testing.
 
 # Define readfiles (make sure to close the file reference in the right place)
-
+def readfiles(filenames):
+    for f in filenames:
+        fileref = open(f,'r')
+        for line in fileref:
+            yield line
+        fileref.close()
 
 # Define len_check
-
+def len_check(file_lines):
+    for line in file_lines:
+        if len(line) > 40:
+            yield line
 
 # Define main_filterer
+def main_filterer(file_names_list):
+    return (filename for filename in file_names_list if len(filename) > 40)
 
 
-
-## Uncomment this code to test so you can see easily what results from your code. DO uncomment it. DO NOT delete or change it. (You can add other code above while you work, of course.)
-# provided_file_names = ["samplehw6_1.txt","samplehw6_2.txt"]
-# for ln in main_filterer(provided_file_names):
-#     print(ln.rstrip('\n'), end=" ")
-#####
-
+## Uncomment this code to test so you can see easily what results from your code. 
+# DO uncomment it. DO NOT delete or change it. (You can add other code above while you work, of course.)
+provided_file_names = ["samplehw6_1.txt","samplehw6_2.txt"]
+for ln in main_filterer(provided_file_names):
+    print(ln.rstrip('\n'), end=" ")
+####
 
 ##### TESTS BELOW THIS LINE. DO NOT CHANGE ANY CODE BELOW THIS LINE. #####
 print("\n\nOUTPUT FROM TESTS SHOWN BELOW THIS LINE.\n\n")
